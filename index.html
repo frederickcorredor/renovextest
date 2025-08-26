@@ -282,7 +282,7 @@
           <!-- Preguntas -->
           <div id="q1" class="question">
             <h2>Eyaculas después de la penetración en:</h2>
-            <button class="button" onclick="nextQuestion('q1','q2')">Más de 30 minutos</button>
+            <button class="button" onclick="nextQuestion('q1','q2')">Más de 20 minutos</button>
             <button class="button" onclick="nextQuestion('q1','q2')">Menos de 20 minutos</button>
             <button class="button" onclick="nextQuestion('q1','q2')">Menos de 10 minutos</button>
             <button class="button" onclick="nextQuestion('q1','q2')">Menos de 5 minutos</button>
@@ -377,7 +377,7 @@
           <div id="q12" class="question">
             <h2>Indícanos tu nombre para personalizar tu diagnóstico:</h2>
             <input type="text" id="nameInput" placeholder="Tu nombre" required class="input-spaced">
-            <button class="button" style="background:green; color:#fff; border-color:#0b5a0b;" onclick="showLoading()">Diagnosticar</button>
+            <button class="button" style="background:green; color:#fff; border-color:#0b5a0b;" onclick="showLoading()">Continuar</button>
             <img src="wendy2.webp" alt="" style="position: absolute;width: 310px; bottom: 0px; right: 0px; z-index: 1;">
           </div>
 
@@ -542,17 +542,17 @@
     document.getElementById('confirmacion').style.display = 'flex';
     document.getElementById('popup-content').style.display = 'none';
     // Reproducir el video de la confirmación al aparecer
-  const v = document.querySelector('#confirmacion video'); // el <video> dentro de #confirmacion
-  attemptPlay(v);
+    const v = document.querySelector('#confirmacion video'); // el <video> dentro de #confirmacion
+    attemptPlay(v);
   }
   function cerrarconfirmacion(){
     // Pausar y resetear el video de la confirmación al cerrar
-  const v = document.querySelector('#confirmacion video');
-  if (v) { try { v.pause(); v.currentTime = 0; } catch(e){} }
+    const v = document.querySelector('#confirmacion video');
+    if (v) { try { v.pause(); v.currentTime = 0; } catch(e){} }
 
-  // Volver al contenido del test
-  document.getElementById('confirmacion').style.display = 'none';
-  document.getElementById('popup-content').style.display = 'flex';
+    // Volver al contenido del test
+    document.getElementById('confirmacion').style.display = 'none';
+    document.getElementById('popup-content').style.display = 'flex';
   }
   function closePopup(){
     document.getElementById('confirmacion').style.display = 'none';
@@ -606,6 +606,7 @@
     }
   }
 
+  // 🔧 Ajuste: usar selector con ámbito para el video del PASO 4
   function goToPostTestVideo(){
     const pop = document.getElementById('popup');
     if (pop && pop.style.display !== 'none') {
@@ -613,13 +614,13 @@
       document.body.style.overflow = '';
     }
     showSection('contenedor4');
-    const v2 = document.getElementById('videoPost');
+    const v2 = document.querySelector('#contenedor4 .video-wrapper video'); // <- aquí el fix
     attemptPlay(v2);
     window.__postVideoShown = true;
   }
 
   /* === CONFIG: coloca tu número de WhatsApp en formato internacional, sin + ni espacios === */
-const WAPP_NUMBER = '57XXXXXXXXXX'; // <-- reemplaza por tu número. Ej: 573001112233
+const WAPP_NUMBER = '573108746281'; // <-- reemplaza por tu número. Ej: 573001112233
 
 /* Muestra el overlay cuando termine el video del PASO 4 */
 document.addEventListener('DOMContentLoaded', function () {
@@ -690,4 +691,3 @@ function enviarCorreo(e){
   </script>
 </body>
 </html>
-
