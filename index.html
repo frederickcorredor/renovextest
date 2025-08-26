@@ -165,6 +165,44 @@
     .anim-enter-from-left{ animation: enterFromLeft .99s ease both; }
     .anim-leave-to-right{ animation: leaveToRight  .60s ease both; }
 
+
+    /* === Animaciones para .question (entra de abajo, sale hacia arriba) === */
+.q-anim-enter { animation: qEnterFromBottom .45s ease both; }
+.q-anim-leave { animation: qLeaveToTop    .35s ease both; }
+
+/* Imágenes de las preguntas: ocultas hasta que toque mostrarlas */
+.question > img{
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+
+/* Cuando la pregunta recibe esta clase, mostramos sus imágenes con delay */
+.question.q-show-img > img{
+  transition-delay: .01s;   /* <-- el retraso pedido */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .question > img{ transition: none; }
+}
+
+@keyframes qEnterFromBottom{
+  from { transform: translateY(60px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes qLeaveToTop{
+  from { transform: translateY(0);    opacity: 1; }
+  to   { transform: translateY(-60px);opacity: 0; }
+}
+
+/* Respeta accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .q-anim-enter, .q-anim-leave { animation: none !important; }
+}
+
     @keyframes enterFromLeft{
       from{ transform: translateX(-100%); opacity: 1; }
       to  { transform: translateX(0);     opacity: 1; }
@@ -382,15 +420,6 @@
 
           <div id="finalMessage" class="final-message">
             <h2>Felicidades por completar el test</h2>
-
-            <div class="contenedorvideo">
-              <div class="video-wrapper">
-                <video id="videoPost" controls playsinline preload="metadata">
-                  <source src="final2.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5.
-                </video>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -594,14 +623,88 @@
     document.getElementById('intro').style.display = 'flex';
   }
 
-  function showQuestion(currentId, nextId){
-    document.getElementById(currentId).style.display = 'none';
-    document.getElementById(nextId).style.display = 'flex';
+
+
+  let qIsTransitioning = false;
+  let qImgTimer = null; // <-- para controlar el delay de imágenes
+
+  function animateQuestion(currentId, nextId){
+    const fromEl = document.getElementById(currentId);
+    const toEl   = document.getElementById(nextId);
+    if (!toEl || fromEl === toEl) return;
+
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && qIsTransitioning) return;
+    qIsTransitioning = true;
+
+    // Siempre: limpiar timer previo y ocultar imágenes del contenedor que sale
+    if (qImgTimer) { clearTimeout(qImgTimer); qImgTimer = null; }
+    if (fromEl) fromEl.classList.remove('q-show-img');  // oculta imágenes del 'from'
+
+    if (reduce) {
+      if (fromEl) fromEl.style.display = 'none';
+      toEl.style.display = 'flex';
+      // En reduce-motion, mostramos imágenes sin esperar
+      toEl.classList.add('q-show-img');
+      qIsTransitioning = false;
+      return;
+    }
+
+    // Preparar destino: mostrar + animación de entrada (ya la tienes con q-anim-enter)
+    toEl.style.display = 'flex';
+    toEl.classList.add('q-anim-enter');
+
+    // Salida del actual, si es .question
+    const fromIsQ = fromEl && fromEl.classList.contains('question');
+    if (fromIsQ) {
+      fromEl.classList.add('q-anim-leave');
+      fromEl.addEventListener('animationend', function onLeave(e){
+        if (e.animationName !== 'qLeaveToTop') return;
+        fromEl.removeEventListener('animationend', onLeave);
+        fromEl.classList.remove('q-anim-leave');
+        fromEl.style.display = 'none';
+      }, { once:true });
+    } else if (fromEl) {
+      fromEl.style.display = 'none';
+    }
+
+    // Cuando termina de entrar la nueva pregunta, esperamos 0.7s y mostramos sus imágenes
+    toEl.addEventListener('animationend', function onEnter(e){
+      if (e.animationName !== 'qEnterFromBottom') return;
+      toEl.removeEventListener('animationend', onEnter);
+      toEl.classList.remove('q-anim-enter');
+
+      // Programar aparición de imágenes
+      qImgTimer = setTimeout(() => {
+        toEl.classList.add('q-show-img');
+        qImgTimer = null;
+      }, 100); // 0.01 segundos
+
+      qIsTransitioning = false;
+    }, { once:true });
   }
-  function nextQuestion(currentId, nextId){
-    document.getElementById(currentId).style.display = 'none';
-    document.getElementById(nextId).style.display = 'flex';
+
+  // Mantén tus helpers igual:
+  function showQuestion(currentId, nextId){ animateQuestion(currentId, nextId); }
+  function nextQuestion(currentId, nextId){ animateQuestion(currentId, nextId); }
+
+  // Limpieza extra al reiniciar
+  function reiniciar(){
+    const questions = document.getElementsByClassName("question");
+    for (let i = 0; i < questions.length; i++) {
+      questions[i].style.display = 'none';
+      questions[i].classList.remove('q-show-img'); // <-- oculta imágenes de todas las preguntas
+    }
+    if (qImgTimer) { clearTimeout(qImgTimer); qImgTimer = null; }
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('finalMessage').style.display = 'none';
+    document.getElementById('imagencirculo').style.display = '';
+    document.getElementById('equis').style.display = 'flex';
+    document.getElementById('intro').style.display = 'flex';
   }
+
+
 
   function showLoading(){
     const name = document.getElementById('nameInput').value;
@@ -615,7 +718,7 @@
     document.getElementById('equis').style.display = 'none';
     document.getElementById('loading').style.display = 'flex';
 
-    setTimeout(showFinalMessage, 3000);
+    setTimeout(showFinalMessage, 1000);
   }
 
   function showFinalMessage(){
@@ -625,7 +728,7 @@
     document.getElementById('imagencirculo').style.display = 'none';
 
     if (!window.__postVideoShown) {
-      setTimeout(goToPostTestVideo, 3000);
+      setTimeout(goToPostTestVideo, 1000);
     }
   }
 
