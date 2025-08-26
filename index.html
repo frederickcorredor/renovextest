@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rénovex en línea</title>
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Calistoga&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    .site-content .ast-container { display:flex; flex-direction:column; }
+
+    *{ box-sizing:border-box; margin:0; padding:0; font-family:"Poppins",sans-serif; }
+    body{
+      width:100%;
+      display:flex; flex-wrap:wrap; justify-content:center; align-items:center; flex-direction:column;
+      background:linear-gradient(145deg,#eeeded,#ffffff);
+      overflow-x:hidden;
+      font-family: "Calistoga", cursive, "Poppins", sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6{ font-size: clamp(24px, 2vw, 28px); margin-top: 19px; color: #0c5d0c;line-height: 26px; text-align: center;}
+    p{font-size: clamp(14px, 1vw, 19px); padding: 6px; font-weight:500;font-style: italic;}
+
+    #page .site-content{ width:100vw; }
+    main{ width:100%; max-width:1200px; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; flex-direction:column; }
+    section{ width:100%; display:flex; flex-wrap:wrap; align-items:center; flex-direction:column; min-height:95vh; }
+
+    /* === Mostrar una sección a la vez === */
+    .step{ display:none; }
+    .step.active{ display:flex; }
+
+    button{
+      padding: 6px 12px;
+      color: #000000;
+      font-weight: 700;
+      cursor: pointer;
+      border-bottom-right-radius: 12px;
+      border-top-left-radius: 12px;
+      background: linear-gradient(170deg, #d7d7d7fc, #fdfdfdf7);
+      max-width: 250px;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+      border: 1px solid black;
+      box-shadow: 1px 2px 2px #000000c7;
+    }
+    .button{ min-width:280px; border-radius:16px; margin:6px 4px; box-shadow:2px 2px 2px rgba(0,0,0,.35); }
+    .button:hover, button:hover{ transform:scale(1.01); background: linear-gradient(170deg, #02890dfc, #166f02f7); color: #fff; }
+
+    /* Botón flotante para abrir el test (oculto hasta sección 3) */
+    .boton-test{
+      position:fixed; left:12px; bottom:16px; min-width:180px; z-index:1000; display:none;
+    }
+
+    /* Cabecera de iconos del popup */
+    .equis{
+      position:relative; width:100%; display:flex; flex-wrap:wrap; flex-direction:row; justify-content:flex-end;
+    }
+    .equis img{ width:35px; margin:2px 6px; transition:transform .3s ease; margin-bottom: 16px;}
+    .equis img:hover{ transform:scale(1.2); }
+    .equis .equisita{ width:25px; height:25px; opacity:.5; }
+    #imagencirculo{ width:30px; position:absolute; left:-10px; top:-4px; }
+
+    .wpcf7-spinner{ width:100%; display:none; }
+
+    /* Modal / Popup */
+    .popup{
+      display:none; position:fixed; inset:0; z-index:5000;
+      width:100%; height:100%; background:rgba(0,0,0,.5);
+      justify-content:center; align-items:center;
+    }
+    .popup-content{
+      background:#fff; padding:20px; border-radius:16px; max-width:600px; width:90%;
+      border:4px solid #03223a; min-height:480px;
+      background-size:cover; background-position:top;
+    }
+
+    .question, .final-message{ display:none; justify-content:flex-start; align-items:center; flex-wrap:wrap; }
+    .question{ width:60%; min-width:280px; }
+    .question p{ width:90%; }
+    .loading{ display:none; flex-direction:column; align-items:center; }
+    .loading p{ width:80%; color:#fff; text-align:left; }
+
+    input, textarea{
+      font-size:16px; color:#000;
+      border:2px solid #04548df7; border-top-right-radius:8px; border-bottom-left-radius:8px;
+      max-width:95%; padding:8px 10px;
+    }
+    textarea{ width:100%; min-height:120px; resize:vertical; }
+    .input-spaced{ margin:6px; border-radius:8px; }
+
+    /* Contenedor de video responsivo */
+    .contenedorvideo{ width:100%; max-width:900px; }
+    .video-wrapper{ position:relative; width:100%; aspect-ratio:16/9; }
+    .video-wrapper video{
+      position:absolute; inset:0; width:90%; border:0; padding:6px; margin: calc(50% - 45px) auto; margin-top:0;border-radius: 20px;
+    }
+
+    /* Utilidades para fondos y tamaños */
+    .bg-fondo{ background-image:url(color3.png); background-size:cover; }
+    .maxw-900{ max-width:900px; }
+    .section-rel{ position:relative; }
+
+    /* Sección 1 */
+    .s1-wrapper{ gap:12px; display:flex; flex-direction:column-reverse; align-items:center; height:100vh; justify-content:space-between; }
+    .s1-card{text-align:justify;background: linear-gradient(318deg, #0062ca, #d8f1fb);border-radius: 24px; border: 2px solid #fff;padding: 6px 16px; width: 90%; margin-bottom: 60px; position: relative; z-index: 2;-webkit-animation: slide-in-bottom 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-in-bottom 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}
+    .s1-card h2{ padding:2px 16px; text-align:center;margin-top: -1px; color: #0c5d0c;font-size: 24px;line-height: 26px; }
+    .s1-options{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:600px; padding:12px; position:relative; z-index:2; }
+    .s1-options-title{ width:100%; text-align:center; margin-bottom:16px; font-size:clamp(24px, 2vw, 28px); color: #0c5d0c;line-height: 26px;}
+    .s1-image{ position:absolute; width:450px; bottom:0; right:-135px; 	-webkit-animation: slide-in-fwd-right 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-in-fwd-right 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; }
+
+    /* Intro del popup */
+    .intro-block{ display:flex; flex-wrap:wrap; justify-content:flex-start; align-items:center;}
+    .intro-actions{ width:100%; display:flex; flex-wrap:wrap; justify-content:center; margin-top:8px;}
+    #intro-title{ width:100%; text-align:center; margin-bottom:8px; }   
+
+    /* Final message */
+    .final-message{ width:100%; text-align:center; align-items:center; justify-content:flex-start; align-content:center; flex-wrap:wrap; }
+    .final-title{ color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.4); }
+
+    /* Contenedor del spinner */
+    .spinner-wrap{
+      width:100%; display:flex; justify-content:center; align-items:center; padding:12px 0;
+    }
+    /* Spinner circular */
+    .spinner{
+      width:48px; height:48px; border-radius:50%;
+      border:4px solid rgba(255,255,255,0.35);
+      border-top-color:#1a75bb;
+      animation:spin 0.9s linear infinite;
+    }
+
+    /* Check animado */
+    .check-wrap{ width:50px; height:50px; display:inline-flex; align-items:center; justify-content:center; }
+    .checkmark{ width:50px; height:50px; }
+    .checkmark__circle{
+      fill:none; stroke:#1a75bb; stroke-width:4; stroke-miterlimit:10;
+      stroke-dasharray:166; stroke-dashoffset:166; animation:chk-stroke .6s cubic-bezier(.65,0,.45,1) forwards;
+    }
+    .checkmark__check{
+      fill:none; stroke:#1a75bb; stroke-width:5; stroke-linecap:round; stroke-linejoin:round;
+      stroke-dasharray:48; stroke-dashoffset:48; animation:chk-stroke .4s .6s cubic-bezier(.65,0,.45,1) forwards;
+    }
+    .check-wrap.pop{ animation:chk-pop .3s .9s ease-in-out both; }
+
+    /* Confirmación de cierre */
+    #confirmacion{ display:none; }
+    .confirm-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap;margin-top: -60px;position: relative;z-index: 5; }
+    .confirm-title{ margin-bottom:10px; }
+    .confirm-text{ margin-bottom:16px; }
+
+    /* Navegación final sección 4 */
+    .nav-actions{ margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+
+    .question button{ position: relative; z-index: 5; top: 45vh; }
+    #q10 button{ top: 0px; }
+
+    /* Opcional: pequeños estilos del overlay de resultados */
+#resultOverlay .popup-content .email-form .input-spaced{
+  width: 100%;
+  max-width: 360px;
+}
+#resultOverlay .success-msg{
+  color:#0b5a0b;
+}
+
+    /* Animaciones / accesibilidad */
+    @keyframes chk-stroke { to { stroke-dashoffset:0; } }
+    @keyframes chk-pop { 50% { transform:scale(1.08); } }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
+
+    @media (prefers-reduced-motion: reduce){
+      .spinner{ animation:none; }
+      .checkmark__circle, .checkmark__check, .check-wrap.pop{ animation:none; }
+    }
+
+    @media (max-width:600px){
+      .popup-content{ width:95%; min-height:90vh;display: flex;flex-direction: column;flex-wrap: wrap;align-items: center;position: relative;overflow: hidden; }
+
+      .step.active button{ width:100%; max-width:270px; }
+
+      .video-wrapper{ position:relative; width:100%; aspect-ratio:9/16; }
+
+      .question{ width: 90%; }
+      p{ text-align: center; }
+    }
+
+    @-webkit-keyframes slide-in-fwd-right {
+      0% { -webkit-transform: translateZ(-1400px) translateX(1000px); transform: translateZ(-1400px) translateX(1000px); opacity: 0; }
+      100% { -webkit-transform: translateZ(0) translateX(0); transform: translateZ(0) translateX(0); opacity: 1; }
+    }
+    @keyframes slide-in-fwd-right {
+      0% { transform: translateZ(-1400px) translateX(1000px); opacity: 0; }
+      100% { transform: translateZ(0) translateX(0); opacity: 1; }
+    }
+
+    @-webkit-keyframes slide-in-bottom {
+      0% { -webkit-transform: translateY(1000px); transform: translateY(1000px); opacity: 0; }
+      100% { -webkit-transform: translateY(0); transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slide-in-bottom {
+      0% { transform: translateY(1000px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <!-- Sección 1 (PASO 1) -->
+    <section id="contenedor1" class="step active bg-fondo maxw-900 section-rel">
+      <div class="s1-wrapper">
+        <div class="s1-card">
+          <h2>Te Preocupas por tí <br> ¡ FELICITACIONES !</h2>
+          <p>Para una mejor experiencia, indícame lo que quieres mejorar y
+            así podré brindarte una Asesoría más personalizada</p>
+        </div>
+
+        <div class="s1-options">
+          <h2 class="s1-options-title">SELECCIONA <br> lo que quieres mejorar:</h2>
+          <button onclick="showSection('contenedor2')">IMPOTENCIA SEXUAL</button>
+          <button onclick="showSection('contenedor2')">CONTROL EYACULATORIO</button>
+          <button onclick="showSection('contenedor2')">TAMAÑO DEL MIEMBRO</button>
+          <button onclick="showSection('contenedor2')">PROTECCIÓN DE LA PRÓSTATA</button>
+          <button onclick="showSection('contenedor2')">ENERGÍA Y VITALIDAD</button>
+          <button onclick="showSection('contenedor2')">TODAS LAS ANTERIORES</button>
+        </div>
+      </div>
+      <img src="ween7.png" alt="" class="s1-image">
+    </section>
+
+    <!-- Sección 2 (PASO 2) -->
+    <section id="contenedor2" class="step bg-fondo maxw-900">
+      <h1>Bienvenido a Rénovex en línea</h1>
+      <p>Mira el siguiente video</p>
+      <div class="contenedorvideo">
+        <div class="video-wrapper">
+          <video id="videoHtml5" controls playsinline preload="metadata">
+            <source src="wendy720.mp4" type="video/mp4">
+            <source src="https://renovexenlinea.com/wp-content/uploads/2025/08/Zipper1.webm" type="video/webm">
+            Tu navegador no soporta video HTML5.
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 3: Test (PASO 3) -->
+    <section id="contenedor3" class="step bg-fondo maxw-900">
+      <!-- Botón flotante para abrir el Test (oculto hasta llegar a esta sección) -->
+      <button id="btnTest" class="boton-test" onclick="openPopup()">Realizar test de salud</button>
+
+      <!-- Overlay del popup -->
+      <div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+        <div class="popup-content bg-fondo" id="popup-content">
+          <div class="equis" id="equis">
+            <img src="https://renovexenlinea.com/wp-content/uploads/2025/05/email.png" id="imagencirculo" onclick="reiniciar()" alt="Reiniciar test">
+            <img src="https://renovexenlinea.com/wp-content/uploads/2025/05/cross_7331166.png" class="equisita" onclick="confirmacion()" alt="Cerrar">
+          </div>
+
+          <!-- Campo oculto para compatibilidad con el script -->
+          <input type="hidden" id="textInput" name="textInput" />
+
+          <!-- Intro -->
+          <div id="intro" class="intro-block">
+            <h5 id="intro-title">
+              Es momento de ser <br> MUY HONESTO 
+            </h5>
+            <p>
+              Selecciona las opciones que mejor describen tu experiencia en las últimas relaciones.
+            </p>
+            <div class="intro-actions">
+              <button class="button" onclick="showQuestion('intro','q1')">HACER EL TEST</button>
+            </div>
+
+            <!-- Imagen inline EXACTA como la tenías -->
+            <img src="wendy2.webp" alt="" style="position: absolute;width: 300px; bottom: 0px; right: 20px; z-index: 1;">
+          </div>
+
+          <!-- Preguntas -->
+          <div id="q1" class="question">
+            <h2>Eyaculas después de la penetración en:</h2>
+            <button class="button" onclick="nextQuestion('q1','q2')">Más de 30 minutos</button>
+            <button class="button" onclick="nextQuestion('q1','q2')">Menos de 20 minutos</button>
+            <button class="button" onclick="nextQuestion('q1','q2')">Menos de 10 minutos</button>
+            <button class="button" onclick="nextQuestion('q1','q2')">Menos de 5 minutos</button>
+
+            <img src="relojarena2.webp" alt="" style="position: absolute;width: 331px; bottom: 190px; right: 0px; z-index: 1;">
+          </div>
+
+          <div id="q2" class="question">
+            <h2>Consideras la calidad de tu erección así:</h2>
+            <button class="button" onclick="nextQuestion('q2','q3')">Rígida permanente</button>
+            <button class="button" onclick="nextQuestion('q2','q3')">Rígida no permanente</button>
+            <button class="button" onclick="nextQuestion('q2','q3')">Erecto ocasionalmente</button>
+            <button class="button" onclick="nextQuestion('q2','q3')">No erecto</button>
+            <img src="berenjena.webp" alt="" style="position: absolute;width: 300px; bottom: 183px; right: 20px; z-index: 1;">
+          </div>
+
+          <div id="q3" class="question">
+            <h2>Mis problemas sexuales me hacen sentir:</h2>
+            <button class="button" onclick="nextQuestion('q3','q4')">Mucha vergüenza</button>
+            <button class="button" onclick="nextQuestion('q3','q4')">Evitar las relaciones</button>
+            <button class="button" onclick="nextQuestion('q3','q4')">Baja autoestima</button>
+            <button class="button" onclick="nextQuestion('q3','q4')">No me importa mi problema</button>
+            <img src="emocion.webp" alt="" style="position: absolute;width: 348px; bottom: 162px; right: 15px; z-index: 1;">
+          </div>
+
+          <div id="q4" class="question">
+            <h2>En cuanto a mis hábitos de alcohol:</h2>
+            <button class="button" onclick="nextQuestion('q4','q5')">Tomo regularmente</button>
+            <button class="button" onclick="nextQuestion('q4','q5')">Tomo mucho</button>
+            <button class="button" onclick="nextQuestion('q4','q5')">No suelo tomar</button>
+            <img src="alcohol.webp" alt="" style="position: absolute;width: 310px; bottom: 180px; right: 0px; z-index: 1;">
+          </div>
+
+          <div id="q5" class="question">
+            <h2>En cuanto a mis hábitos de tabaco:</h2>
+            <button class="button" onclick="nextQuestion('q5','q6')">Fumo regularmente</button>
+            <button class="button" onclick="nextQuestion('q5','q6')">Fumo a diario</button>
+            <button class="button" onclick="nextQuestion('q5','q6')">No suelo fumar</button>
+            <img src="cigarrete.webp" alt="" style="position: absolute;width: 290px; bottom: 185px; right: 20px; z-index: 1;">
+          </div>
+
+          <div id="q6" class="question">
+            <h2>En cuanto a mis hábitos de grasas:</h2>
+            <button class="button" onclick="nextQuestion('q6','q7')">Como muchas grasas y fritos</button>
+            <button class="button" onclick="nextQuestion('q6','q7')">Como pocas grasas y fritos</button>
+            <button class="button" onclick="nextQuestion('q6','q7')">No consumo grasas ni fritos</button>
+            <img src="comida.webp" alt="" style="position: absolute;width: 366px; bottom: 182px; right: 0px; z-index: 1;">
+          </div>
+
+          <div id="q7" class="question">
+            <h2>De los siguientes medicamentos he tomado:</h2>
+            <button class="button" onclick="nextQuestion('q7','q8')">Viagra o sildenafil</button>
+            <button class="button" onclick="nextQuestion('q7','q8')">Cialis o tadalafilo</button>
+            <button class="button" onclick="nextQuestion('q7','q8')">Jugos potenciadores</button>
+            <button class="button" onclick="nextQuestion('q7','q8')">Otros</button>
+            <img src="pastillas.webp" alt="" style="position: absolute;width: 291px; bottom: 162px; right: 30px; z-index: 1;">
+          </div>
+
+          <div id="q8" class="question">
+            <h2>En otros tratamientos me he sentido:</h2>
+            <button class="button" onclick="nextQuestion('q8','q9')">Muy satisfecho</button>
+            <button class="button" onclick="nextQuestion('q8','q9')">Satisfecho</button>
+            <button class="button" onclick="nextQuestion('q8','q9')">Decepcionado</button>
+            <button class="button" onclick="nextQuestion('q8','q9')">Estafado</button>
+            <img src="docto2.webp" alt="" style="position: absolute;width: 339px; bottom: -4px; right: -10px; z-index: 1;">
+          </div>
+
+          <div id="q9" class="question">
+            <h2>Socialmente me he visto afectado así:</h2>
+            <button class="button" onclick="nextQuestion('q9','q10')">Miedo a entablar relaciones</button>
+            <button class="button" onclick="nextQuestion('q9','q10')">Baja autoestima</button>
+            <button class="button" onclick="nextQuestion('q9','q10')">Depresión</button>
+            <button class="button" onclick="nextQuestion('q9','q10')">Todas las anteriores</button>
+            <img src="wendy2.webp" alt="" style="position: absolute;width: 274px; bottom: 182px; right: 35px; z-index: 1;">
+          </div>
+
+          <div id="q10" class="question">
+            <h2>Por favor déjame un comentario muy honesto y claro que nos indique lo siguiente:</h2>
+            <p id="parrafoblanco">
+              Los productos o tratamientos que has tomado, los resultados positivos o negativos que has obtenido, si tienes enfermedades que estés tratando en este momento y cualquier otra información que nos ayude a darte un diagnóstico preciso y brindarte la mejor solución.
+            </p>
+            <button class="button" onclick="nextQuestion('q10','q11')">Sí, quiero dejar mis comentarios</button>
+            <button class="button" onclick="nextQuestion('q10','q12')">No quiero dejar ningún comentario</button>
+          </div>
+
+          <div id="q11" class="question">
+            <h2>Por favor déjame un comentario muy honesto:</h2>
+            <textarea id="commentario" name="comment" placeholder="Escribe aquí tu comentario..."></textarea>
+            <button class="button" onclick="nextQuestion('q11','q12')">Enviar</button>
+          </div>
+
+          <div id="q12" class="question">
+            <h2>Indícanos tu nombre para personalizar tu diagnóstico:</h2>
+            <input type="text" id="nameInput" placeholder="Tu nombre" required class="input-spaced">
+            <button class="button" style="background:green; color:#fff; border-color:#0b5a0b;" onclick="showLoading()">Diagnosticar</button>
+            <img src="wendy2.webp" alt="" style="position: absolute;width: 349px; bottom: 0px; right: 0px; z-index: 1;">
+          </div>
+
+          <div id="loading" class="loading">
+            <p>Gracias por tu confianza <span id="userName"></span>. Estamos procesando tus resultados, danos un momento por favor.</p>
+            <div class="spinner-wrap" aria-hidden="true">
+              <div class="spinner"></div>
+            </div>
+          </div>
+
+          <div id="finalMessage" class="final-message">
+            <h2>Felicidades por completar el test</h2>
+
+            <div class="contenedorvideo">
+              <div class="video-wrapper">
+                <video id="videoPost" controls playsinline preload="metadata">
+                  <!-- Corregido: faltaba el atributo type -->
+                  <source src="WhatsApp Video 2025-08-25 at 15.52.21.mp4" type="video/mp4">
+                  Tu navegador no soporta video HTML5.
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirmación de cierre -->
+      <div id="confirmacion" class="popup" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+        <div class="popup-content">
+          <h3 id="confirm-title" class="confirm-title">¿Deseas cerrar el test?</h3>
+          <div class="video-wrapper">
+            <video id="videoPost" controls playsinline preload="metadata">
+              <!-- Corregido: tipo coincide con extensión .mp4 -->
+              <source src="notevayas.mp4" type="video/mp4">
+              Tu navegador no soporta video HTML5.
+            </video>
+          </div>
+          <div class="confirm-actions">
+            <button class="button" onclick="cerrarconfirmacion()">Continuar Test</button>
+            <button class="button" onclick="window.location.href='https://google.com'">Ir a Whatsapp</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 4: Video post-test (PASO 4) -->
+    <section id="contenedor4" class="step bg-fondo">
+      <h2>Mira este video final</h2>
+      <p>Gracias por completar el test. Te dejamos este video con información importante.</p>
+      <div class="contenedorvideo">
+        <div class="video-wrapper">
+          <video id="videoPost" controls playsinline preload="metadata">
+            <!-- Corregido: atributo type -->
+            <source src="WhatsApp Video 2025-08-25 at 15.52.21.mp4" type="video/mp4">
+            Tu navegador no soporta video HTML5.
+          </video>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button onclick="showSection('contenedor1')">Volver al inicio</button>
+        <button onclick="showSection('contenedor3')">Volver al diagnóstico</button>
+      </div>
+    </section>
+
+    <!-- Overlay para elegir cómo recibir los resultados -->
+<div id="resultOverlay" class="popup" role="dialog" aria-modal="true" aria-labelledby="result-title" style="display:none;">
+  <div class="popup-content" style="max-width:520px; text-align:center;">
+    <h3 id="result-title" style="margin-bottom:10px;">¿Cómo quieres recibir tus resultados?</h3>
+
+    <p style="margin-bottom:12px;">Elige una opción:</p>
+
+    <div class="result-actions" style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:12px;">
+      <button class="button" onclick="enviarWhatsApp()">WhatsApp</button>
+      <button class="button" onclick="mostrarCorreo()">Correo electrónico</button>
+    </div>
+
+    <!-- Formulario de correo (oculto inicialmente) -->
+    <form id="formCorreo" class="email-form" onsubmit="enviarCorreo(event)" style="display:none;">
+      <input type="text" id="nombreCorreo" class="input-spaced" placeholder="Tu nombre" />
+      <input type="email" id="correoInput" class="input-spaced" placeholder="Tu correo" required />
+      <button class="button" type="submit">Recibir por correo</button>
+      <!-- Si usas WordPress/CF7 puedes reemplazar todo el form por tu shortcode:
+      <?php echo do_shortcode('[contact-form-7 id="XXXXX" title="Resultados por correo"]'); ?>
+      -->
+    </form>
+
+    <p id="correoOk" class="success-msg" style="display:none; margin-top:10px; font-weight:600;">¡Listo! Te enviaremos los resultados a tu correo.</p>
+  </div>
+</div>
+  </main>
+
+  <script>
+  /* === Reproducción segura === */
+  function attemptPlay(video) {
+    if (!video) return;
+    const p = video.play();
+    if (p && p.catch) {
+      p.catch(() => {
+        video.muted = true;
+        const p2 = video.play();
+        if (p2 && p2.catch) p2.catch(() => {});
+      });
+    }
+  }
+
+  /* === Control de pasos/sections === */
+  function showSection(id){
+    const sections = document.querySelectorAll('main > section.step');
+    let prevActive = null;
+
+    sections.forEach(s => {
+      if (s.classList.contains('active')) prevActive = s;
+      s.classList.remove('active');
+    });
+
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+
+    if (prevActive) {
+      prevActive.querySelectorAll('video').forEach(v => { try { v.pause(); } catch(e){} });
+    }
+
+    if (el && (id === 'contenedor2' || id === 'contenedor4')) {
+      el.querySelectorAll('video').forEach(v => attemptPlay(v));
+    }
+
+    const btn = document.getElementById('btnTest');
+    if (btn) btn.style.display = (id === 'contenedor3') ? 'inline-block' : 'none';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function autoOpenTestOnce() {
+    if (!window.__testAutoOpened) {
+      window.__testAutoOpened = true;
+      showSection('contenedor3');
+      openPopup();
+      const btn = document.getElementById('btnTest');
+      if (btn) btn.style.display = 'inline-block';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const v = document.getElementById('videoHtml5');
+    if (!v) return;
+
+    v.addEventListener('timeupdate', function () {
+      if (v.duration && (v.currentTime / v.duration) > 0.99) autoOpenTestOnce();
+    });
+
+    v.addEventListener('ended', autoOpenTestOnce);
+  });
+
+  /* === Popup Test === */
+  function openPopup(){
+    document.getElementById('popup').style.display = 'flex';
+    document.getElementById('popup-content').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function confirmacion(){
+    document.getElementById('confirmacion').style.display = 'flex';
+    document.getElementById('popup-content').style.display = 'none';
+    // Reproducir el video de la confirmación al aparecer
+  const v = document.querySelector('#confirmacion video'); // el <video> dentro de #confirmacion
+  attemptPlay(v);
+  }
+  function cerrarconfirmacion(){
+    // Pausar y resetear el video de la confirmación al cerrar
+  const v = document.querySelector('#confirmacion video');
+  if (v) { try { v.pause(); v.currentTime = 0; } catch(e){} }
+
+  // Volver al contenido del test
+  document.getElementById('confirmacion').style.display = 'none';
+  document.getElementById('popup-content').style.display = 'flex';
+  }
+  function closePopup(){
+    document.getElementById('confirmacion').style.display = 'none';
+    document.getElementById('popup').style.display = 'none';
+    document.body.style.overflow = '';
+    reiniciar();
+  }
+
+  function reiniciar(){
+    const questions = document.getElementsByClassName("question");
+    for (let i = 0; i < questions.length; i++) { questions[i].style.display = 'none'; }
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('finalMessage').style.display = 'none';
+    document.getElementById('imagencirculo').style.display = '';
+    document.getElementById('equis').style.display = 'flex';
+    document.getElementById('intro').style.display = 'flex';
+  }
+
+  function showQuestion(currentId, nextId){
+    document.getElementById(currentId).style.display = 'none';
+    document.getElementById(nextId).style.display = 'flex';
+  }
+  function nextQuestion(currentId, nextId){
+    document.getElementById(currentId).style.display = 'none';
+    document.getElementById(nextId).style.display = 'flex';
+  }
+
+  function showLoading(){
+    const name = document.getElementById('nameInput').value;
+    if (name.trim() === '') { alert('Por favor, ingresa tu nombre'); return; }
+    document.getElementById('userName').textContent = name;
+
+    const hidden = document.getElementById('textInput');
+    if (hidden) { hidden.value = name; hidden.style.display = 'none'; }
+
+    document.getElementById('q12').style.display = 'none';
+    document.getElementById('equis').style.display = 'none';
+    document.getElementById('loading').style.display = 'flex';
+
+    setTimeout(showFinalMessage, 3000);
+  }
+
+  function showFinalMessage(){
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('finalMessage').style.display = 'flex';
+    document.getElementById('equis').style.display = 'flex';
+    document.getElementById('imagencirculo').style.display = 'none';
+
+    if (!window.__postVideoShown) {
+      setTimeout(goToPostTestVideo, 3000);
+    }
+  }
+
+  function goToPostTestVideo(){
+    const pop = document.getElementById('popup');
+    if (pop && pop.style.display !== 'none') {
+      pop.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    showSection('contenedor4');
+    const v2 = document.getElementById('videoPost');
+    attemptPlay(v2);
+    window.__postVideoShown = true;
+  }
+
+  /* === CONFIG: coloca tu número de WhatsApp en formato internacional, sin + ni espacios === */
+const WAPP_NUMBER = '57XXXXXXXXXX'; // <-- reemplaza por tu número. Ej: 573001112233
+
+/* Muestra el overlay cuando termine el video del PASO 4 */
+document.addEventListener('DOMContentLoaded', function () {
+  const videoPaso4 = document.querySelector('#contenedor4 .video-wrapper video');
+  if (videoPaso4) {
+    videoPaso4.addEventListener('ended', openResultOverlay);
+  }
+});
+
+function openResultOverlay(){
+  const ov = document.getElementById('resultOverlay');
+  if (!ov) return;
+
+  // Prefill nombre desde lo que ya capturaste
+  const nombre = (document.getElementById('userName')?.textContent || document.getElementById('nameInput')?.value || '').trim();
+  const nombreCorreo = document.getElementById('nombreCorreo');
+  if (nombreCorreo && nombre) nombreCorreo.value = nombre;
+
+  ov.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeResultOverlay(){
+  const ov = document.getElementById('resultOverlay');
+  if (ov) ov.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+/* Opción WhatsApp */
+function enviarWhatsApp(){
+  const nombre = (document.getElementById('userName')?.textContent || document.getElementById('nameInput')?.value || '').trim();
+  const msg = `Hola, quiero recibir mis resultados del test de salud sexual.${nombre ? ` Soy ${nombre}.` : ''}`;
+  const url = `https://wa.me/${WAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+
+  // Si quieres cerrar el overlay después de abrir WhatsApp:
+  closeResultOverlay();
+}
+
+/* Mostrar formulario de correo */
+function mostrarCorreo(){
+  const form = document.getElementById('formCorreo');
+  const ok = document.getElementById('correoOk');
+  if (ok) ok.style.display = 'none';
+  if (form) form.style.display = 'block';
+}
+
+/* Enviar correo (frontend) */
+function enviarCorreo(e){
+  e.preventDefault();
+  const email = document.getElementById('correoInput')?.value.trim();
+  const nombre = document.getElementById('nombreCorreo')?.value.trim() || '';
+
+  // Validación simple
+  if (!email || !/.+@.+\..+/.test(email)) {
+    alert('Por favor ingresa un correo válido');
+    return;
+  }
+
+  // Aquí podrías hacer un fetch a tu endpoint/CF7/HubSpot/etc.
+  // Por ahora mostramos confirmación local:
+  const ok = document.getElementById('correoOk');
+  if (ok) ok.style.display = 'block';
+
+  // Si quieres cerrar el overlay después de "enviar":
+  // closeResultOverlay();
+}
+  </script>
+</body>
+</html>
