@@ -67,7 +67,7 @@
     /* Modal / Popup */
     .popup{
       display:none; position:fixed; inset:0; z-index:5000;
-      width:100%; height:100%; background:rgba(0,0,0,.5);
+      width:100%; height:90%; background:rgba(0,0,0,.5);
       justify-content:center; align-items:center;
     }
     .popup-content{
@@ -104,7 +104,7 @@
 
     /* Sección 1 */
     .s1-wrapper{ gap:12px; display:flex; flex-direction:column-reverse; align-items:center; height:100vh; justify-content:space-between; }
-    .s1-card{text-align:justify;background: linear-gradient(318deg, #0062ca, #d8f1fb);border-radius: 24px; border: 2px solid #fff;padding: 6px 16px; width: 90%; margin-bottom: 60px; position: relative; z-index: 2;-webkit-animation: slide-in-bottom 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    .s1-card{max-width: 600px;text-align:justify;background: linear-gradient(318deg, #0062ca, #d8f1fb);border-radius: 24px; border: 2px solid #fff;padding: 6px 16px; width: 90%; margin-bottom: 60px; position: relative; z-index: 2;-webkit-animation: slide-in-bottom 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	        animation: slide-in-bottom 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}
     .s1-card h2{ padding:2px 16px; text-align:center;margin-top: -1px; color: #0c5d0c;font-size: 24px;line-height: 26px; }
     .s1-options{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:600px; padding:12px; position:relative; z-index:2; }
@@ -184,6 +184,98 @@
   transform: translateY(0);
 }
 
+ #imgIntro {
+      position: absolute;
+      height: 45vh;
+      bottom: 0px;
+      right: 20px;
+      z-index: 1;
+    }
+
+    #imgQ1 {
+      position: absolute;
+      height: 45vh;
+      bottom: 190px;
+      right: 0px;
+      z-index: 1;
+    }
+
+    #imgQ2 {
+      position: absolute;
+      height: 45vh;
+      bottom: 183px;
+      right: 20px;
+      z-index: 1;
+    }
+
+    #imgQ3 {
+      position: absolute;
+      height: 45vh;
+      bottom: 162px;
+      right: 15px;
+      z-index: 1;
+    }
+
+    #imgQ4 {
+      position: absolute;
+      height: 45vh;
+      bottom: 180px;
+      right: 0px;
+      z-index: 1;
+    }
+
+    #imgQ5 {
+      position: absolute;
+      height: 45vh;
+      bottom: 185px;
+      right: 20px;
+      z-index: 1;
+    }
+
+    #imgQ6 {
+      position: absolute;
+      height: 45vh;
+      bottom: 182px;
+      right: 0px;
+      z-index: 1;
+    }
+
+    #imgQ7 {
+      position: absolute;
+      height: 45vh;
+      bottom: 162px;
+      right: 30px;
+      z-index: 1;
+    }
+
+    #imgQ8 {
+      position: absolute;
+      height: 65vh;
+      bottom: -4px;
+      right: -10px;
+      z-index: 1;
+    }
+
+    #imgQ9 {
+      position: absolute;
+      height: 45vh;
+      bottom: 182px;
+      right: 35px;
+      z-index: 1;
+    }
+
+    #imgQ12 {
+      position: absolute;
+      height: 50vh;
+      bottom: 0px;
+      right: 20px;
+      z-index: 1;
+    }
+
+    #boton2{
+      background:green; color:#fff; border-color:#0b5a0b;position: absolute;top: 230px;
+    }
+
 /* Accesibilidad */
 @media (prefers-reduced-motion: reduce){
   .question > img{ transition: none; }
@@ -227,6 +319,105 @@
       .video-wrapper{ position:relative; width:100%; aspect-ratio:9/16; }
       .question{ width: 90%; }
       p{ text-align: center; }
+    }
+
+    @media (min-width:750px){
+      .video-wrapper video{max-width: 320px;}
+      .popup-content{flex-direction: column;}
+      .question button{ top: 10vh; }
+       #boton2{
+      background:green; color:#fff; border-color:#0b5a0b;position: static;
+    }
+
+
+
+       #imgIntro {
+      position: absolute;
+      height: 71vh;
+      top: 29vh;
+      right: 20px;
+      z-index: 1;
+    }
+
+    #imgQ1 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 0px;
+      z-index: 1;
+    }
+
+    #imgQ2 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 20px;
+      z-index: 1;
+    }
+
+    #imgQ3 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 15px;
+      z-index: 1;
+    }
+
+    #imgQ4 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 0px;
+      z-index: 1;
+    }
+
+    #imgQ5 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 20px;
+      z-index: 1;
+    }
+
+    #imgQ6 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 0px;
+      z-index: 1;
+    }
+
+    #imgQ7 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 30px;
+      z-index: 1;
+    }
+
+    #imgQ8 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 0px;
+      z-index: 1;
+    }
+
+    #imgQ9 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 35px;
+      z-index: 1;
+    }
+
+    #imgQ12 {
+      position: absolute;
+      height: 71vh;
+      bottom: 0px;
+      right: 20px;
+      z-index: 1;
+    }
     }
 
     /* Otras animaciones que ya tenías */
@@ -301,93 +492,93 @@
 
           <input type="hidden" id="textInput" name="textInput" />
 
-          <div id="intro" class="intro-block">
-            <h5 id="intro-title">Es momento de ser <br> MUY HONESTO</h5>
-            <p>Selecciona las opciones que mejor describen tu experiencia en las últimas relaciones.</p>
-            <div class="intro-actions">
-              <button class="button" onclick="showQuestion('intro','q1')">HACER EL TEST</button>
-            </div>
-            <img src="wendy2.webp" alt="" style="position: absolute;height: 45vh; bottom: 0px; right: 20px; z-index: 1;">
-          </div>
+              <div id="intro" class="intro-block">
+      <h5 id="intro-title">Es momento de ser <br> MUY HONESTO</h5>
+      <p>Selecciona las opciones que mejor describen tu experiencia en las últimas relaciones.</p>
+      <div class="intro-actions">
+        <button class="button" onclick="showQuestion('intro','q1')">HACER EL TEST</button>
+      </div>
+      <img id="imgIntro" src="wendy2.webp" alt="">
+    </div>
 
-          <!-- Preguntas (igual que las tenías) -->
-          <div id="q1" class="question">
-            <h2>Eyaculas después de la penetración en:</h2>
-            <button class="button" onclick="nextQuestion('q1','q2')">Más de 20 minutos</button>
-            <button class="button" onclick="nextQuestion('q1','q2')">Menos de 20 minutos</button>
-            <button class="button" onclick="nextQuestion('q1','q2')">Menos de 10 minutos</button>
-            <button class="button" onclick="nextQuestion('q1','q2')">Menos de 5 minutos</button>
-            <img src="relojarena2.webp" alt="" style="position: absolute;height: 45vh; bottom: 190px; right: 0px; z-index: 1;">
-          </div>
+    <!-- Preguntas -->
+    <div id="q1" class="question">
+      <h2>Eyaculas después de la penetración en:</h2>
+      <button class="button" onclick="nextQuestion('q1','q2')">Más de 20 minutos</button>
+      <button class="button" onclick="nextQuestion('q1','q2')">Menos de 20 minutos</button>
+      <button class="button" onclick="nextQuestion('q1','q2')">Menos de 10 minutos</button>
+      <button class="button" onclick="nextQuestion('q1','q2')">Menos de 5 minutos</button>
+      <img id="imgQ1" src="relojarena2.webp" alt="">
+    </div>
 
-          <div id="q2" class="question">
-            <h2>Consideras la calidad de tu erección así:</h2>
-            <button class="button" onclick="nextQuestion('q2','q3')">Rígida permanente</button>
-            <button class="button" onclick="nextQuestion('q2','q3')">Rígida no permanente</button>
-            <button class="button" onclick="nextQuestion('q2','q3')">Erecto ocasionalmente</button>
-            <button class="button" onclick="nextQuestion('q2','q3')">No erecto</button>
-            <img src="berenjena.webp" alt="" style="position: absolute;height: 45vh; bottom: 183px; right: 20px; z-index: 1;">
-          </div>
+    <div id="q2" class="question">
+      <h2>Consideras la calidad de tu erección así:</h2>
+      <button class="button" onclick="nextQuestion('q2','q3')">Rígida permanente</button>
+      <button class="button" onclick="nextQuestion('q2','q3')">Rígida no permanente</button>
+      <button class="button" onclick="nextQuestion('q2','q3')">Erecto ocasionalmente</button>
+      <button class="button" onclick="nextQuestion('q2','q3')">No erecto</button>
+      <img id="imgQ2" src="berenjena.webp" alt="">
+    </div>
 
-          <div id="q3" class="question">
-            <h2>Mis problemas sexuales me hacen sentir:</h2>
-            <button class="button" onclick="nextQuestion('q3','q4')">Mucha vergüenza</button>
-            <button class="button" onclick="nextQuestion('q3','q4')">Evitar las relaciones</button>
-            <button class="button" onclick="nextQuestion('q3','q4')">Baja autoestima</button>
-            <button class="button" onclick="nextQuestion('q3','q4')">No me importa mi problema</button>
-            <img src="emocion.webp" alt="" style="position: absolute;height: 45vh; bottom: 162px; right: 15px; z-index: 1;">
-          </div>
+    <div id="q3" class="question">
+      <h2>Mis problemas sexuales me hacen sentir:</h2>
+      <button class="button" onclick="nextQuestion('q3','q4')">Mucha vergüenza</button>
+      <button class="button" onclick="nextQuestion('q3','q4')">Evitar las relaciones</button>
+      <button class="button" onclick="nextQuestion('q3','q4')">Baja autoestima</button>
+      <button class="button" onclick="nextQuestion('q3','q4')">No me importa mi problema</button>
+      <img id="imgQ3" src="emocion.webp" alt="">
+    </div>
 
-          <div id="q4" class="question">
-            <h2>En cuanto a mis hábitos de alcohol:</h2>
-            <button class="button" onclick="nextQuestion('q4','q5')">Tomo regularmente</button>
-            <button class="button" onclick="nextQuestion('q4','q5')">Tomo mucho</button>
-            <button class="button" onclick="nextQuestion('q4','q5')">No suelo tomar</button>
-            <img src="alcohol.webp" alt="" style="position: absolute;height: 45vh; bottom: 180px; right: 0px; z-index: 1%;">
-          </div>
+    <div id="q4" class="question">
+      <h2>En cuanto a mis hábitos de alcohol:</h2>
+      <button class="button" onclick="nextQuestion('q4','q5')">Tomo regularmente</button>
+      <button class="button" onclick="nextQuestion('q4','q5')">Tomo mucho</button>
+      <button class="button" onclick="nextQuestion('q4','q5')">No suelo tomar</button>
+      <img id="imgQ4" src="alcohol.webp" alt="">
+    </div>
 
-          <div id="q5" class="question">
-            <h2>En cuanto a mis hábitos de tabaco:</h2>
-            <button class="button" onclick="nextQuestion('q5','q6')">Fumo regularmente</button>
-            <button class="button" onclick="nextQuestion('q5','q6')">Fumo a diario</button>
-            <button class="button" onclick="nextQuestion('q5','q6')">No suelo fumar</button>
-            <img src="cigarrete.webp" alt="" style="position: absolute;height: 45vh; bottom: 185px; right: 20px; z-index: 1;">
-          </div>
+    <div id="q5" class="question">
+      <h2>En cuanto a mis hábitos de tabaco:</h2>
+      <button class="button" onclick="nextQuestion('q5','q6')">Fumo regularmente</button>
+      <button class="button" onclick="nextQuestion('q5','q6')">Fumo a diario</button>
+      <button class="button" onclick="nextQuestion('q5','q6')">No suelo fumar</button>
+      <img id="imgQ5" src="cigarrete.webp" alt="">
+    </div>
 
-          <div id="q6" class="question">
-            <h2>En cuanto a mis hábitos de grasas:</h2>
-            <button class="button" onclick="nextQuestion('q6','q7')">Como muchas grasas y fritos</button>
-            <button class="button" onclick="nextQuestion('q6','q7')">Como pocas grasas y fritos</button>
-            <button class="button" onclick="nextQuestion('q6','q7')">No consumo grasas ni fritos</button>
-            <img src="comida.webp" alt="" style="position: absolute;height: 45vh; bottom: 182px; right: 0px; z-index: 1;">
-          </div>
+    <div id="q6" class="question">
+      <h2>En cuanto a mis hábitos de grasas:</h2>
+      <button class="button" onclick="nextQuestion('q6','q7')">Como muchas grasas y fritos</button>
+      <button class="button" onclick="nextQuestion('q6','q7')">Como pocas grasas y fritos</button>
+      <button class="button" onclick="nextQuestion('q6','q7')">No consumo grasas ni fritos</button>
+      <img id="imgQ6" src="comida.webp" alt="">
+    </div>
 
-          <div id="q7" class="question">
-            <h2>De los siguientes medicamentos he tomado:</h2>
-            <button class="button" onclick="nextQuestion('q7','q8')">Viagra o sildenafil</button>
-            <button class="button" onclick="nextQuestion('q7','q8')">Cialis o tadalafilo</button>
-            <button class="button" onclick="nextQuestion('q7','q8')">Jugos potenciadores</button>
-            <button class="button" onclick="nextQuestion('q7','q8')">Otros</button>
-            <img src="pastillas.webp" alt="" style="position: absolute;height: 45vh; bottom: 162px; right: 30px; z-index: 1;">
-          </div>
+    <div id="q7" class="question">
+      <h2>De los siguientes medicamentos he tomado:</h2>
+      <button class="button" onclick="nextQuestion('q7','q8')">Viagra o sildenafil</button>
+      <button class="button" onclick="nextQuestion('q7','q8')">Cialis o tadalafilo</button>
+      <button class="button" onclick="nextQuestion('q7','q8')">Jugos potenciadores</button>
+      <button class="button" onclick="nextQuestion('q7','q8')">Otros</button>
+      <img id="imgQ7" src="pastillas.webp" alt="">
+    </div>
 
-          <div id="q8" class="question">
-            <h2>En otros tratamientos me he sentido:</h2>
-            <button class="button" onclick="nextQuestion('q8','q9')">Muy satisfecho</button>
-            <button class="button" onclick="nextQuestion('q8','q9')">Satisfecho</button>
-            <button class="button" onclick="nextQuestion('q8','q9')">Decepcionado</button>
-            <button class="button" onclick="nextQuestion('q8','q9')">Estafado</button>
-            <img src="docto2.webp" alt="" style="position: absolute;height: 65vh; bottom: -4px; right: -10px; z-index: 1;">
-          </div>
+    <div id="q8" class="question">
+      <h2>En otros tratamientos me he sentido:</h2>
+      <button class="button" onclick="nextQuestion('q8','q9')">Muy satisfecho</button>
+      <button class="button" onclick="nextQuestion('q8','q9')">Satisfecho</button>
+      <button class="button" onclick="nextQuestion('q8','q9')">Decepcionado</button>
+      <button class="button" onclick="nextQuestion('q8','q9')">Estafado</button>
+      <img id="imgQ8" src="docto2.webp" alt="">
+    </div>
 
-          <div id="q9" class="question">
-            <h2>Socialmente me he visto afectado así:</h2>
-            <button class="button" onclick="nextQuestion('q9','q10')">Miedo a entablar relaciones</button>
-            <button class="button" onclick="nextQuestion('q9','q10')">Baja autoestima</button>
-            <button class="button" onclick="nextQuestion('q9','q10')">Depresión</button>
-            <button class="button" onclick="nextQuestion('q9','q10')">Todas las anteriores</button>
-            <img src="wendy2.webp" alt="" style="position: absolute;height: 45vh; bottom: 182px; right: 35px; z-index: 1%;">
-          </div>
+    <div id="q9" class="question">
+      <h2>Socialmente me he visto afectado así:</h2>
+      <button class="button" onclick="nextQuestion('q9','q10')">Miedo a entablar relaciones</button>
+      <button class="button" onclick="nextQuestion('q9','q10')">Baja autoestima</button>
+      <button class="button" onclick="nextQuestion('q9','q10')">Depresión</button>
+      <button class="button" onclick="nextQuestion('q9','q10')">Todas las anteriores</button>
+      <img id="imgQ9" src="wendy2.webp" alt="">
+    </div>
 
           <div id="q10" class="question">
             <h2>Por favor déjame un comentario muy honesto y claro que nos indique lo siguiente:</h2>
@@ -404,12 +595,12 @@
             <button class="button" onclick="nextQuestion('q11','q12')">Enviar</button>
           </div>
 
-          <div id="q12" class="question">
-            <h2>Indícanos tu nombre para personalizar tu diagnóstico:</h2>
-            <input type="text" id="nameInput" placeholder="Tu nombre" required class="input-spaced">
-            <button class="button" style="background:green; color:#fff; border-color:#0b5a0b;position: absolute;top: 230px;" onclick="showLoading()">Continuar</button>
-            <img src="wendy2.webp" alt="" style="position: absolute;height: 50vh; bottom: 0px; right: 20px; z-index: 1;">
-          </div>
+              <div id="q12" class="question">
+          <h2>Indícanos tu nombre para personalizar tu diagnóstico:</h2>
+          <input type="text" id="nameInput" placeholder="Tu nombre" required class="input-spaced">
+          <button class="button" id="boton2" onclick="showLoading()">Continuar</button>
+          <img id="imgQ12" src="wendy2.webp" alt="">
+        </div>
 
           <div id="loading" class="loading">
             <p>Gracias por tu confianza <span id="userName"></span>. Estamos procesando tus resultados, danos un momento por favor.</p>
