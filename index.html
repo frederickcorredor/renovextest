@@ -322,12 +322,12 @@
     }
 
     @media (min-width:750px){
-      .video-wrapper video{max-width: 320px;}
-      .popup-content{flex-direction: column;}
+      .video-wrapper video{max-width: 1320px;aspect-ratio: 16 / 9}
+      .popup{min-height: 100vh;}
+      .popup-content{flex-direction: column;align-items: center;}
       .question button{ top: 10vh; }
-       #boton2{
-      background:green; color:#fff; border-color:#0b5a0b;position: static;
-    }
+       #boton2{background:green; color:#fff; border-color:#0b5a0b;position: static;}
+       .step{overflow: visible;min-height: 100vh;}
 
 
 
@@ -646,10 +646,10 @@
         </div>
       </div>
 
-      <div class="nav-actions">
+    <!--  <div class="nav-actions">
         <button onclick="showSection('contenedor1')">Volver al inicio</button>
         <button onclick="showSection('contenedor3')">Volver al diagnóstico</button>
-      </div>
+      </div>-->
     </section>
 
     <!-- Overlay para elegir cómo recibir los resultados -->
@@ -994,6 +994,5 @@
   </script>
 </body>
 </html>
-
 
 
