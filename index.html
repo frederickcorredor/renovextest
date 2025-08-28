@@ -30,7 +30,7 @@
 
     /* === Mostrar una sección a la vez === */
     .step{ display:none; position:relative; overflow:hidden; }
-    .step.active{ display:flex; }
+    .step.active{ display:flex; height: 99vh;}
 
     button{
       padding: 6px 12px;
@@ -109,7 +109,7 @@
     .s1-card h2{ padding:2px 16px; text-align:center;margin-top: -1px; color: #0c5d0c;font-size: 24px;line-height: 26px; }
     .s1-options{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:600px; padding:12px; position:relative; z-index:2; }
     .s1-options-title{ width:100%; text-align:center; margin-bottom:16px; font-size:clamp(24px, 2vw, 28px); color: #0c5d0c;line-height: 26px;}
-    .s1-image{ position:absolute; width:450px; bottom:0; right:-135px; 	-webkit-animation: slide-in-fwd-right 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    .s1-image{ position:absolute; height: 59vh; bottom:0; right:-135px; 	-webkit-animation: slide-in-fwd-right 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	        animation: slide-in-fwd-right 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; }
 
     /* Intro del popup */
@@ -186,7 +186,7 @@
 
  #imgIntro {
       position: absolute;
-      height: 45vh;
+      height: 55vh;
       bottom: 0px;
       right: 20px;
       z-index: 1;
@@ -250,7 +250,7 @@
 
     #imgQ8 {
       position: absolute;
-      height: 65vh;
+      height: 75vh;
       bottom: -4px;
       right: -10px;
       z-index: 1;
@@ -266,7 +266,7 @@
 
     #imgQ12 {
       position: absolute;
-      height: 50vh;
+      height: 55vh;
       bottom: 0px;
       right: 20px;
       z-index: 1;
@@ -314,7 +314,7 @@
 
     /* Mobile */
     @media (max-width:600px){
-      .popup-content{ width:95%; min-height:90vh;display:flex;flex-direction:column;flex-wrap:wrap;align-items:center;position:relative;overflow:hidden; }
+      .popup-content{ width:95%; min-height:95vh;display:flex;flex-direction:column;flex-wrap:wrap;align-items:center;position:relative;overflow:hidden;top: 5vh;}
       .step.active button{ width:100%; max-width:270px; }
       .video-wrapper{ position:relative; width:100%; aspect-ratio:9/16; }
       .question{ width: 90%; }
@@ -582,7 +582,7 @@
     </div>
 
           <div id="q10" class="question">
-            <h2>Por favor déjame un comentario muy honesto y claro que nos indique lo siguiente:</h2>
+            <h2>Déjame un comentario que nos indique lo siguiente:</h2>
             <p id="parrafoblanco">
               Los productos o tratamientos que has tomado, los resultados positivos o negativos que has obtenido, si tienes enfermedades que estés tratando en este momento y cualquier otra información que nos ayude a darte un diagnóstico preciso y brindarte la mejor solución.
             </p>
